@@ -1,0 +1,42 @@
+{
+    "os": "Windows-10-10.0.18363-SP0",
+    "python": "3.9.7",
+    "heartbeatAt": "2022-12-01T16:39:22.974915",
+    "startedAt": "2022-12-01T16:39:22.263958",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "C:\\Users\\harpa\\Documents\\ITU_fall_2022\\AML_Project_new\\AML\\src\\cyclegan_with_monitoring.py",
+    "codePath": "src\\cyclegan_with_monitoring.py",
+    "git": {
+        "remote": "https://github.com/TorAP/AML.git",
+        "commit": "857d3f1d69397c19be098b2d32404fc4a9bb32a8"
+    },
+    "email": "harpa@expectus.is",
+    "root": "C:/Users/harpa/Documents/ITU_fall_2022/AML_Project_new/AML",
+    "host": "LAPTOP-MPDDFK9U",
+    "username": "harpa",
+    "executable": "C:\\Users\\harpa\\Anaconda3\\envs\\pythonProject\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1696.0,
+        "min": 0.0,
+        "max": 1896.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1696.0,
+            "min": 0.0,
+            "max": 1896.0
+        }
+    ],
+    "disk": {
+        "total": 475.69237899780273,
+        "used": 433.34924697875977
+    },
+    "memory": {
+        "total": 15.83782958984375
+    }
+}

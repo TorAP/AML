@@ -1,0 +1,8 @@
+C:\Users\harpa\Anaconda3\envs\pythonProject\lib\site-packages\torch\cuda\amp\grad_scaler.py:118: UserWarning: torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.
+  warnings.warn("torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.")
+Traceback (most recent call last):
+  File "C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\cyclegan_with_monitoring.py", line 524, in <module>
+    main_with_hyperparameter_loop()
+  File "C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\cyclegan_with_monitoring.py", line 500, in main_with_hyperparameter_loop
+    G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, save_best_model, epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen )
+NameError: name 'save_best_model' is not defined

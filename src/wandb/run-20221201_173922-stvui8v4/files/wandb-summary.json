@@ -1,0 +1,1 @@
+{"current_optim_gen": "adam", "current_optim_disc": "adam", "current_epoch": 0, "current_cycle_lambda": 0.1, "current_identity_lambda": 0.001, "leraning_rate": 2e-05, "d-loss": 0.5230588912963867, "g-loss": 0.6723735332489014, "_timestamp": 1669912930.8818827, "_runtime": 168.59492754936218, "_step": 0}

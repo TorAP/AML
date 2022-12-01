@@ -1,0 +1,3 @@
+C:\Users\harpa\Anaconda3\envs\pythonProject\lib\site-packages\torch\cuda\amp\grad_scaler.py:118: UserWarning: torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.
+  warnings.warn("torch.cuda.amp.GradScaler is enabled, but CUDA is not available.  Disabling.")
+  0%|          | 0/699 [00:00<?, ?it/s]C:\Users\harpa\Anaconda3\envs\pythonProject\lib\site-packages\torch\amp\autocast_mode.py:202: UserWarning: User provided device_type of 'cuda', but CUDA is not available. Disabling

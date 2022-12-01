@@ -1,0 +1,119 @@
+2022-12-01 17:39:22,287 INFO    StreamThr :29832 [internal.py:wandb_internal():88] W&B internal server running at pid: 29832, started at: 2022-12-01 17:39:22.286956
+2022-12-01 17:39:22,289 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: status
+2022-12-01 17:39:22,292 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: status
+2022-12-01 17:39:22,294 INFO    WriterThread:29832 [datastore.py:open_for_write():75] open: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\run-stvui8v4.wandb
+2022-12-01 17:39:22,294 DEBUG   SenderThread:29832 [sender.py:send():303] send: header
+2022-12-01 17:39:22,340 DEBUG   SenderThread:29832 [sender.py:send():303] send: run
+2022-12-01 17:39:22,824 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: check_version
+2022-12-01 17:39:22,830 INFO    SenderThread:29832 [dir_watcher.py:__init__():216] watching files in: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files
+2022-12-01 17:39:22,830 INFO    SenderThread:29832 [sender.py:_start_run_threads():928] run started: stvui8v4 with start time 1669912762.286955
+2022-12-01 17:39:22,830 DEBUG   SenderThread:29832 [sender.py:send():303] send: summary
+2022-12-01 17:39:22,831 INFO    SenderThread:29832 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-12-01 17:39:22,832 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: check_version
+2022-12-01 17:39:22,931 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: run_start
+2022-12-01 17:39:22,962 DEBUG   HandlerThread:29832 [system_info.py:__init__():31] System info init
+2022-12-01 17:39:22,962 DEBUG   HandlerThread:29832 [system_info.py:__init__():46] System info init done
+2022-12-01 17:39:22,962 INFO    HandlerThread:29832 [system_monitor.py:start():150] Starting system monitor
+2022-12-01 17:39:22,963 INFO    SystemMonitor:29832 [system_monitor.py:_start():116] Starting system asset monitoring threads
+2022-12-01 17:39:22,963 INFO    HandlerThread:29832 [system_monitor.py:probe():168] Collecting system info
+2022-12-01 17:39:22,969 INFO    SystemMonitor:29832 [interfaces.py:start():168] Started cpu
+2022-12-01 17:39:22,974 INFO    SystemMonitor:29832 [interfaces.py:start():168] Started disk
+2022-12-01 17:39:22,974 DEBUG   HandlerThread:29832 [system_info.py:probe():195] Probing system
+2022-12-01 17:39:22,979 INFO    SystemMonitor:29832 [interfaces.py:start():168] Started memory
+2022-12-01 17:39:22,999 INFO    SystemMonitor:29832 [interfaces.py:start():168] Started network
+2022-12-01 17:39:23,019 DEBUG   HandlerThread:29832 [system_info.py:_probe_git():180] Probing git
+2022-12-01 17:39:23,126 DEBUG   HandlerThread:29832 [system_info.py:_probe_git():188] Probing git done
+2022-12-01 17:39:23,126 DEBUG   HandlerThread:29832 [system_info.py:probe():241] Probing system done
+2022-12-01 17:39:23,126 DEBUG   HandlerThread:29832 [system_monitor.py:probe():177] {'os': 'Windows-10-10.0.18363-SP0', 'python': '3.9.7', 'heartbeatAt': '2022-12-01T16:39:22.974915', 'startedAt': '2022-12-01T16:39:22.263958', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': 'C:\\Users\\harpa\\Documents\\ITU_fall_2022\\AML_Project_new\\AML\\src\\cyclegan_with_monitoring.py', 'codePath': 'src\\cyclegan_with_monitoring.py', 'git': {'remote': 'https://github.com/TorAP/AML.git', 'commit': '857d3f1d69397c19be098b2d32404fc4a9bb32a8'}, 'email': 'harpa@expectus.is', 'root': 'C:/Users/harpa/Documents/ITU_fall_2022/AML_Project_new/AML', 'host': 'LAPTOP-MPDDFK9U', 'username': 'harpa', 'executable': 'C:\\Users\\harpa\\Anaconda3\\envs\\pythonProject\\python.exe', 'cpu_count': 4, 'cpu_count_logical': 8, 'cpu_freq': {'current': 1696.0, 'min': 0.0, 'max': 1896.0}, 'cpu_freq_per_core': [{'current': 1696.0, 'min': 0.0, 'max': 1896.0}], 'disk': {'total': 475.69237899780273, 'used': 433.34924697875977}, 'memory': {'total': 15.83782958984375}}
+2022-12-01 17:39:23,126 INFO    HandlerThread:29832 [system_monitor.py:probe():178] Finished collecting system info
+2022-12-01 17:39:23,126 INFO    HandlerThread:29832 [system_monitor.py:probe():181] Publishing system info
+2022-12-01 17:39:23,126 DEBUG   HandlerThread:29832 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2022-12-01 17:39:23,127 DEBUG   HandlerThread:29832 [system_info.py:_save_pip():67] Saving pip packages done
+2022-12-01 17:39:23,127 DEBUG   HandlerThread:29832 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2022-12-01 17:39:23,132 ERROR   HandlerThread:29832 [system_info.py:_save_conda():85] Error saving conda packages: [WinError 2] The system cannot find the file specified
+Traceback (most recent call last):
+  File "C:\Users\harpa\Anaconda3\envs\pythonProject\lib\site-packages\wandb\sdk\internal\system\system_info.py", line 81, in _save_conda
+    subprocess.call(
+  File "C:\Users\harpa\Anaconda3\envs\pythonProject\lib\subprocess.py", line 349, in call
+    with Popen(*popenargs, **kwargs) as p:
+  File "C:\Users\harpa\Anaconda3\envs\pythonProject\lib\subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Users\harpa\Anaconda3\envs\pythonProject\lib\subprocess.py", line 1420, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+2022-12-01 17:39:23,134 DEBUG   HandlerThread:29832 [system_info.py:_save_conda():86] Saving conda packages done
+2022-12-01 17:39:23,135 INFO    HandlerThread:29832 [system_monitor.py:probe():183] Finished publishing system info
+2022-12-01 17:39:23,153 DEBUG   SenderThread:29832 [sender.py:send():303] send: files
+2022-12-01 17:39:23,153 INFO    SenderThread:29832 [sender.py:_save_file():1171] saving file wandb-metadata.json with policy now
+2022-12-01 17:39:23,161 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:39:23,161 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:39:23,480 DEBUG   SenderThread:29832 [sender.py:send():303] send: telemetry
+2022-12-01 17:39:23,834 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\requirements.txt
+2022-12-01 17:39:23,835 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\output.log
+2022-12-01 17:39:23,835 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\conda-environment.yaml
+2022-12-01 17:39:23,835 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\wandb-metadata.json
+2022-12-01 17:39:23,836 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_created():275] file/dir created: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\wandb-summary.json
+2022-12-01 17:39:23,889 INFO    Thread-22 :29832 [upload_job.py:push():143] Uploaded file C:\Users\harpa\AppData\Local\Temp\tmpvxln3s4bwandb\2gdjy0p5-wandb-metadata.json
+2022-12-01 17:39:25,834 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\output.log
+2022-12-01 17:39:38,488 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:39:38,518 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:39:51,862 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\output.log
+2022-12-01 17:39:53,742 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:39:53,742 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:39:53,880 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\config.yaml
+2022-12-01 17:40:09,046 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:40:09,046 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:40:23,053 DEBUG   SystemMonitor:29832 [system_monitor.py:_start():130] Starting system metrics aggregation loop
+2022-12-01 17:40:23,059 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:40:24,434 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:40:24,435 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:40:39,758 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:40:39,759 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:40:53,069 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:40:55,081 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:40:55,081 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:41:10,386 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:41:10,386 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:41:23,071 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:41:25,696 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:41:25,696 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:41:41,978 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:41:41,979 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:41:53,111 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:41:57,734 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:41:57,734 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:42:10,894 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: partial_history
+2022-12-01 17:42:10,902 DEBUG   SenderThread:29832 [sender.py:send():303] send: history
+2022-12-01 17:42:10,907 DEBUG   SenderThread:29832 [sender.py:send():303] send: summary
+2022-12-01 17:42:10,932 INFO    SenderThread:29832 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-12-01 17:42:10,952 DEBUG   SenderThread:29832 [sender.py:send():303] send: telemetry
+2022-12-01 17:42:11,778 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\wandb-summary.json
+2022-12-01 17:42:13,154 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:42:13,154 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:42:23,112 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:42:26,090 INFO    Thread-17 :29832 [dir_watcher.py:_on_file_modified():292] file/dir modified: C:\Users\harpa\Documents\ITU_fall_2022\AML_Project_new\AML\src\wandb\run-20221201_173922-stvui8v4\files\config.yaml
+2022-12-01 17:42:28,429 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:42:28,430 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:42:43,728 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:42:43,728 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:42:53,112 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:42:59,229 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:42:59,229 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:43:14,547 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:43:14,548 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:43:23,113 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:43:29,778 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:43:29,778 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:43:45,063 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:43:45,063 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:43:53,114 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:44:00,283 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:44:00,284 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:44:15,579 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:44:15,579 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:44:23,115 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
+2022-12-01 17:44:30,836 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:44:30,837 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:44:46,094 DEBUG   HandlerThread:29832 [handler.py:handle_request():139] handle_request: stop_status
+2022-12-01 17:44:46,095 DEBUG   SenderThread:29832 [sender.py:send_request():317] send_request: stop_status
+2022-12-01 17:44:53,116 DEBUG   SenderThread:29832 [sender.py:send():303] send: stats
