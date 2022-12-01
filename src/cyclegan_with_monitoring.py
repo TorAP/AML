@@ -416,7 +416,7 @@ def main_with_hyperparameter_loop():
     output_df = pd.DataFrame(columns=['epocs_size', 'current_epoch', 'batch_size', 'opt_disc', 'opt_gen', 'learning_rate', 'G_loss', 'D_loss'])
     #save_best_model = SaveBestModel()
     
-    current_batch_size = 10
+    current_batch_size = 1
     current_epoc = 2
 
     for current_cycle_lambda in cycle_lambda_list:
