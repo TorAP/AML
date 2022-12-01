@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1ni3po7hVXtrEKnsE-sxAykjPop4vi8LL
 """
 
-import torch 
+import torch
 import torch.nn as nn
 from PIL import Image
 import os
@@ -31,16 +31,11 @@ plt.style.use('ggplot')
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-
-#! gdown 1PaI7yOFltWp9UX_NUiznQYaRa0pYUItH
-#!unzip data.zip
-from google.colab import drive
-drive.mount('/content/drive')
-!unzip drive/"My Drive"/data.zip
+import os
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-TRAIN_DIR = "/content/data/train"
-VAL_DIR = "/content/data/val"
+TRAIN_DIR = "data/train"
+VAL_DIR = "data/val"
 BATCH_SIZE = 1
 LEARNING_RATE = 1e-5
 LAMBDA_IDENTITY = 0.03
@@ -53,6 +48,8 @@ CHECKPOINT_GEN_P = "genp.pth.tar"
 CHECKPOINT_GEN_M = "genm.pth.tar"
 CHECKPOINT_DISC_P = "discp.pth.tar"
 CHECKPOINT_DISC_M = "discm.pth.tar"
+
+current_directory = os.getcwd()
 
 transforms = A.Compose(
     [
@@ -331,8 +328,8 @@ def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d
         g_scaler.update()
 
         if idx % 200 == 0:
-            save_image(fake_picture*0.5+0.5, f"/content/{current_dir_name}/saved_images/photo_{idx}.png")
-            save_image(fake_monet*0.5+0.5, f"/content/{current_dir_name}/saved_images/monet_{idx}.png")
+            save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/photo_{idx}.png")
+            save_image(fake_monet*0.5+0.5, f"{current_dir_name}/saved_images/monet_{idx}.png")
 
         loop.set_postfix(P_real=P_reals/(idx+1), P_fake=P_fakes/(idx+1))
     return G_loss, D_loss
@@ -428,9 +425,15 @@ def main_with_hyperparameter_loop():
           for current_optim_disc in optim_list:
             for current_lr in learning_rate_list:
               current_dir_name = "epoc-" + str(current_epoc)  + "-batchsize-" + str(current_batch_size) + "-optimgen-" + current_optim_gen + "-optimdisc-" + current_optim_disc + "-lr-" + str(current_lr)
-              current_saved_name = current_dir_name + "/saved_images"
-              !mkdir $current_dir_name
-              !mkdir $current_saved_name
+              #current_saved_name = current_dir_name + "/saved_images"
+
+              hyperparameter_directory = os.path.join(current_directory, current_dir_name)
+              saved_images_directory = os.path.join(hyperparameter_directory, r'saved_images')
+              if not os.path.exists(hyperparameter_directory):
+                  os.makedirs(hyperparameter_directory)
+              if not os.path.exists(saved_images_directory):
+                  os.makedirs(saved_images_directory)
+
               disc_P = Discriminator(in_channels=3).to(DEVICE)
               disc_M = Discriminator(in_channels=3).to(DEVICE)
               gen_M = Generator(img_channels=3, num_residuals=9).to(DEVICE)
@@ -506,8 +509,7 @@ def main_with_hyperparameter_loop():
     print(output_df.head())
     output_df = output_df.sort_values(by=['G_loss'])
     output_df.head(10)
-    output_df.to_csv('output_df_data.csv')
-    !cp output_df_data.csv "drive/My Drive/"
+    csv_results = output_df.to_csv('output_df_data.csv')
 
 if __name__ == "__main__":
   main_with_hyperparameter_loop()
