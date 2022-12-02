@@ -37,8 +37,8 @@ import wandb
 wandb.login(key='7480742348ac86274e395f9adfcfde0ba687f3b4')
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-TRAIN_DIR = "data/train"
-VAL_DIR = "data/val"
+TRAIN_DIR = "src/data/train"
+VAL_DIR = "src/data/val"
 BATCH_SIZE = 1
 LEARNING_RATE = 1e-5
 LAMBDA_IDENTITY = 0.03
