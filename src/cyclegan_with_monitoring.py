@@ -32,6 +32,7 @@ plt.style.use('ggplot')
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
+from datetime import datetime
 
 import wandb
 wandb.login(key='7480742348ac86274e395f9adfcfde0ba687f3b4')
@@ -265,7 +266,7 @@ def show_samples(dataset):
 """ TRAINING """
 
 
-def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d_scaler, g_scaler, current_dir_name,  epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen ):
+def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d_scaler, g_scaler, current_dir_name,  epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen, current_epoc_size ):
     P_reals = 0
     P_fakes = 0
     loop = tqdm(loader, leave=True)
@@ -329,9 +330,6 @@ def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d
                 + identity_picture_loss * current_identity_lambda
                 + identity_monet_loss * current_identity_lambda
             )
-            
-            wandb.log({"current_optim_gen": current_optim_gen, "current_optim_disc":current_optim_disc, "current_epoch":epoch, "current_cycle_lambda":current_cycle_lambda, "current_identity_lambda":current_identity_lambda, "leraning_rate":current_lr, "d-loss": D_loss.item(), "g-loss": G_loss.item()})
-            wandb.watch(gen_M)
 
         opt_gen.zero_grad()
         g_scaler.scale(G_loss).backward()
@@ -341,6 +339,11 @@ def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d
         #save_best_model(G_loss.item(), epoch, gen_M, opt_gen, )
 
         if idx % 1000 == 0:
+            wandb.log({"current epoch size": current_epoc_size, "current_optim_gen": current_optim_gen,
+                       "current_optim_disc": current_optim_disc,
+                       "current_epoch": epoch, "current_cycle_lambda": current_cycle_lambda,
+                       "current_identity_lambda": current_identity_lambda, "leraning_rate": current_lr,
+                       "d-loss": D_loss.item(), "g-loss": G_loss.item()})
             save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/photo_{idx}.png")
             save_image(fake_monet*0.5+0.5,  f"{current_dir_name}/saved_images/monet_{idx}.png")
 
@@ -413,11 +416,26 @@ def main_with_hyperparameter_loop():
     cycle_lambda_list = np.linspace(0.1, 20, 3).tolist()
     identity_lambda_list =  np.linspace(0.001, 1, 3).tolist()
 
-    output_df = pd.DataFrame(columns=['epocs_size', 'current_epoch', 'batch_size', 'opt_disc', 'opt_gen', 'learning_rate', 'G_loss', 'D_loss'])
+    #output_df = pd.DataFrame(columns=['epocs_size', 'current_epoch', 'batch_size', 'opt_disc', 'opt_gen', 'learning_rate', 'G_loss', 'D_loss'])
     #save_best_model = SaveBestModel()
     
     current_batch_size = 1
-    current_epoc = 2
+    current_epoc_size = 2
+
+    now = datetime.now()
+    # dd/mm/YY H:M:S
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    wandb.init(
+        # Set the project where this run will be logged
+        project="basic-intro",
+        # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
+        name=f"experiment_all_{dt_string}",
+        # Track hyperparameters and run metadata
+        config={
+            "architecture": "CNN",
+            "dataset": "monet-pictures",
+        })
 
     for current_cycle_lambda in cycle_lambda_list:
       for current_identity_lambda in identity_lambda_list:
@@ -425,7 +443,7 @@ def main_with_hyperparameter_loop():
           for current_optim_disc in optim_list:
             for current_lr in learning_rate_list:
               
-              current_dir_name = "epoc-" + str(current_epoc)  + "-batchsize-" + str(current_batch_size) + "-optimgen-" + current_optim_gen + "-optimdisc-" + current_optim_disc + "-lr-" + str(current_lr)
+              current_dir_name = "epoc-" + str(current_epoc_size)  + "-batchsize-" + str(current_batch_size) + "-optimgen-" + current_optim_gen + "-optimdisc-" + current_optim_disc + "-lr-" + str(current_lr)
               #current_saved_name = current_dir_name + "/saved_images"
 
               hyperparameter_directory = os.path.join(current_directory, current_dir_name)
@@ -435,16 +453,6 @@ def main_with_hyperparameter_loop():
               if not os.path.exists(saved_images_directory):
                   os.makedirs(saved_images_directory)
 
-              wandb.init(
-                # Set the project where this run will be logged
-                project="basic-intro", 
-                # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
-                name=f"experiment_{current_dir_name}", 
-                # Track hyperparameters and run metadata
-                config={
-                "architecture": "CNN",
-                "dataset": "monet-pictures",
-              })
 
               disc_P = Discriminator(in_channels=3).to(DEVICE)
               disc_M = Discriminator(in_channels=3).to(DEVICE)
@@ -496,8 +504,8 @@ def main_with_hyperparameter_loop():
               generator_loss, discriminator_loss = [], []
              
 
-              for epoch in range(current_epoc):
-                  G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen )
+              for epoch in range(current_epoc_size):
+                  G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen, current_epoc_size)
                   generator_loss.append(G_loss.item())
                   discriminator_loss.append(D_loss.item())
                   if SAVE_MODEL:
@@ -505,20 +513,22 @@ def main_with_hyperparameter_loop():
                       save_checkpoint(gen_M, opt_gen, filename=CHECKPOINT_GEN_M)
                       save_checkpoint(disc_P, opt_disc, filename=CHECKPOINT_DISC_P)
                       save_checkpoint(disc_M, opt_disc, filename=CHECKPOINT_DISC_M)
-                  new_row = {'epocs_size': current_epoc, 'current_epoch': epoch, 'batch_size': current_batch_size, 'opt_disc': current_optim_disc, 'opt_gen': current_optim_gen, 'learning_rate': current_lr, 'G_loss': G_loss.item(), 'D_loss': D_loss.item()}
-                  print(new_row)
-                  output_df = output_df.append(new_row, ignore_index=True)
+                  #new_row = {'epocs_size': current_epoc, 'current_epoch': epoch, 'batch_size': current_batch_size, 'opt_disc': current_optim_disc, 'opt_gen': current_optim_gen, 'learning_rate': current_lr, 'G_loss': G_loss.item(), 'D_loss': D_loss.item()}
+                  #print(new_row)
+                  #output_df = output_df.append(new_row, ignore_index=True)
+
+                  wandb.watch(gen_M)
               
               print(len(generator_loss))
               print(len(discriminator_loss))
               #save_plots(generator_loss, discriminator_loss, current_dir_name, current_epoc)
-              wandb.finish()
-              
+
+    wandb.finish()
     print("before head")
-    print(output_df.head())
-    output_df = output_df.sort_values(by=['G_loss'])
-    output_df.head(10)
-    output_df.to_csv('output_df_data.csv')
+    #print(output_df.head())
+    #output_df = output_df.sort_values(by=['G_loss'])
+    #output_df.head(10)
+    #output_df.to_csv('output_df_data.csv')
 
 if __name__ == "__main__":
   main_with_hyperparameter_loop()
