@@ -38,6 +38,7 @@ import wandb
 wandb.login(key='7480742348ac86274e395f9adfcfde0ba687f3b4')
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+print(DEVICE)
 TRAIN_DIR = "src/data/train"
 VAL_DIR = "src/data/val"
 BATCH_SIZE = 1
@@ -453,8 +454,7 @@ def main_with_hyperparameter_loop():
               if not os.path.exists(saved_images_directory):
                   os.makedirs(saved_images_directory)
 
-
-              disc_P = Discriminator(in_channels=3).to(DEVICE)
+	      disc_P = Discriminator(in_channels=3).to(DEVICE)
               disc_M = Discriminator(in_channels=3).to(DEVICE)
               gen_M = Generator(img_channels=3, num_residuals=9).to(DEVICE)
               gen_P = Generator(img_channels=3, num_residuals=9).to(DEVICE)
@@ -522,7 +522,6 @@ def main_with_hyperparameter_loop():
               print(len(generator_loss))
               print(len(discriminator_loss))
               #save_plots(generator_loss, discriminator_loss, current_dir_name, current_epoc)
-
     wandb.finish()
     print("before head")
     #print(output_df.head())
@@ -531,4 +530,6 @@ def main_with_hyperparameter_loop():
     #output_df.to_csv('output_df_data.csv')
 
 if __name__ == "__main__":
-  main_with_hyperparameter_loop()
+	print(DEVICE)
+	main_with_hyperparameter_loop()
+	
