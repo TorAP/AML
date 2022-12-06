@@ -398,20 +398,19 @@ def main():
     # dd/mm/YY H:M:S
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
+    current_dir_name = f'param_{index}'
+    print(current_dir_name)
+
     wandb.init(
         # Set the project where this run will be logged
         project="basic-intro",
         # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
-        name=f"experiment_all_{dt_string}",
+        name=f"{current_dir_name}_{dt_string}",
         # Track hyperparameters and run metadata
         config={
             "architecture": "CNN",
             "dataset": "monet-pictures",
         })
-
-
-    current_dir_name = f'param_{index}'
-    print(current_dir_name)
 
     hyperparameter_directory = os.path.join(current_directory, current_dir_name)
     saved_images_directory = os.path.join(hyperparameter_directory, r'saved_images')
