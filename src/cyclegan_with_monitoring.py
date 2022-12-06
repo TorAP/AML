@@ -113,11 +113,6 @@ class Discriminator(nn.Module):
     x = self.initial(x)
     return torch.sigmoid(self.model(x))
 
-def test():
-  x = torch.randn((5, 3, 256, 256))
-  model = Discriminator(in_channels=3)
-  preds = model(x)
-  print(preds.shape)
 
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels, down=True, use_act=True, **kwargs):
@@ -179,15 +174,7 @@ class Generator(nn.Module):
             x = layer(x)
         return torch.tanh(self.last(x))
 
-def test_gen():
-    img_channels = 3
-    img_size = 256
-    x = torch.randn((2, img_channels, img_size, img_size))
-    gen = Generator(img_channels, 9)
-    print(gen(x).shape)
-
 # load data
-
 class PictureMonetDataset(Dataset):
     def __init__(self, root_monet, root_picture, transform=None):
         self.root_monet = root_monet
@@ -337,14 +324,7 @@ def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d
         g_scaler.step(opt_gen)
         g_scaler.update()
 
-        #save_best_model(G_loss.item(), epoch, gen_M, opt_gen, )
-
         if idx % 1000 == 0:
-            wandb.log({"current epoch size": current_epoc_size, "current_optim_gen": current_optim_gen,
-                       "current_optim_disc": current_optim_disc,
-                       "current_epoch": epoch, "current_cycle_lambda": current_cycle_lambda,
-                       "current_identity_lambda": current_identity_lambda, "leraning_rate": current_lr,
-                       "d-loss": D_loss.item(), "g-loss": G_loss.item()})
             save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/photo_{idx}.png")
             save_image(fake_monet*0.5+0.5,  f"{current_dir_name}/saved_images/monet_{idx}.png")
 
@@ -376,27 +356,6 @@ class SaveBestModel:
                 'optimizer_state_dict': optimizer.state_dict(),
                 }, 'outputs/best_model.pth')
 
-def save_plots(G_loss, D_loss, current_dir, num_epochs):
-    """
-    Function to save the loss and accuracy plots to disk.
-    """
-   
-    x_values = np.linspace(1,num_epochs, num_epochs)
-    print("x values: ", len(x_values))
-    #loss plots
-    plt.figure(figsize=(10, 7))
-    plt.plot(
-        x_values,G_loss , color='orange', linestyle='-', 
-        label='Generator Loss'
-    )
-    plt.plot(
-        x_values,D_loss, color='red', linestyle='-', 
-        label='Discriminator Loss'
-    )
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.savefig(f'{current_dir}/loss.png')
 
 def get_optimizer(optim, model1, model2, learning_rate):
     if optim == "adam":
@@ -410,19 +369,32 @@ def get_optimizer(optim, model1, model2, learning_rate):
     elif optim == "adagrad":
         return torch.optim.Adagrad(list(model1.parameters()) + list(model2.parameters()),lr=learning_rate,)
 
-def main_with_hyperparameter_loop():
-    
-    optim_list = ['adam', 'rmsprop']
-    learning_rate_list = np.linspace(0.00002, 0.2, 3).tolist()
-    cycle_lambda_list = np.linspace(0.1, 20, 3).tolist()
-    identity_lambda_list =  np.linspace(0.001, 1, 3).tolist()
+def main():
 
-    #output_df = pd.DataFrame(columns=['epocs_size', 'current_epoch', 'batch_size', 'opt_disc', 'opt_gen', 'learning_rate', 'G_loss', 'D_loss'])
-    #save_best_model = SaveBestModel()
-    
+    index = 1
+                            #gen     #disc  #lr-g  #lr-d   #cl  #il
+    settings = {'param_1': ['adam', 'adam', 0.0002, 0.0002, 10, 0.05],  #from the paper
+                'param_2': ['adam', 'adam', 0.0002, 0.0001, 10, 0.05],  #different lr for disc
+                'param_3': ['adam', 'adam', 0.0002, 0.0002, 10, 0.1],  #different il
+                'param_4': ['adam', 'adam', 0.0002, 0.0002, 10, 1],
+                'param_5': ['adam', 'adam', 0.0002, 0.0002, 20, 0.05],  #different cl
+                'param_6': ['adam', 'adam', 0.0002, 0.0002, 1, 0.05],  # different cl
+                'param_7': ['rmsprop', 'rmsprop', 0.0002, 0.0002, 10, 0.05],  #from the paper with different opt
+                'param_8': ['rmsprop', 'rmsprop', 0.0002, 0.0001, 10, 0.05],  #different lr for disc
+                'param_9': ['rmsprop', 'rmsprop', 0.0002, 0.0002, 10, 0.1],  #different il
+                'param_10': ['rmsprop', 'rmsprop', 0.0002, 0.0002, 10, 1],
+                'param_11': ['rmsprop', 'rmsprop', 0.0002, 0.0002, 20, 0.05],  #different cl
+                'param_12': ['rmsprop', 'rmsprop', 0.0002, 0.0002, 1, 0.05],  # different cl
+                }
+
+
     current_batch_size = 1
-    current_epoc_size = 2
+    current_epoc_size = 100
 
+
+    current_optim_gen, current_optim_disc, current_lr_gen, current_lr_disc,  current_cycle_lambda, current_identity_lambda = settings['param_' + str(index)]
+
+    print(f'optim gen {current_optim_gen} and cl {current_cycle_lambda}')
     now = datetime.now()
     # dd/mm/YY H:M:S
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
@@ -438,98 +410,85 @@ def main_with_hyperparameter_loop():
             "dataset": "monet-pictures",
         })
 
-    for current_cycle_lambda in cycle_lambda_list:
-      for current_identity_lambda in identity_lambda_list:
-        for current_optim_gen in optim_list:
-          for current_optim_disc in optim_list:
-            for current_lr in learning_rate_list:
-              
-              current_dir_name = "epoc-" + str(current_epoc_size)  + "-batchsize-" + str(current_batch_size) + "-optimgen-" + current_optim_gen + "-optimdisc-" + current_optim_disc + "-lr-" + str(current_lr)
-              #current_saved_name = current_dir_name + "/saved_images"
 
-              hyperparameter_directory = os.path.join(current_directory, current_dir_name)
-              saved_images_directory = os.path.join(hyperparameter_directory, r'saved_images')
-              if not os.path.exists(hyperparameter_directory):
-                  os.makedirs(hyperparameter_directory)
-              if not os.path.exists(saved_images_directory):
-                  os.makedirs(saved_images_directory)
+    current_dir_name = f'param_{index}'
+    print(current_dir_name)
 
-	      disc_P = Discriminator(in_channels=3).to(DEVICE)
-              disc_M = Discriminator(in_channels=3).to(DEVICE)
-              gen_M = Generator(img_channels=3, num_residuals=9).to(DEVICE)
-              gen_P = Generator(img_channels=3, num_residuals=9).to(DEVICE)
+    hyperparameter_directory = os.path.join(current_directory, current_dir_name)
+    saved_images_directory = os.path.join(hyperparameter_directory, r'saved_images')
+    if not os.path.exists(hyperparameter_directory):
+      os.makedirs(hyperparameter_directory)
+    if not os.path.exists(saved_images_directory):
+      os.makedirs(saved_images_directory)
 
-              opt_disc = get_optimizer(current_optim_disc, disc_P, disc_M, current_lr)
-              opt_gen = get_optimizer(current_optim_gen, gen_M, gen_P, current_lr)
-            
-              
-              L1 = nn.L1Loss()
-              mse = nn.MSELoss()
+    disc_P = Discriminator(in_channels=3).to(DEVICE)
+    disc_M = Discriminator(in_channels=3).to(DEVICE)
+    gen_M = Generator(img_channels=3, num_residuals=9).to(DEVICE)
+    gen_P = Generator(img_channels=3, num_residuals=9).to(DEVICE)
 
-              if LOAD_MODEL:
-                  load_checkpoint(
-                      CHECKPOINT_GEN_P, gen_P, opt_gen, LEARNING_RATE,
-                  )
-                  load_checkpoint(
-                      CHECKPOINT_GEN_M, gen_M, opt_gen, LEARNING_RATE,
-                  )
-                  load_checkpoint(
-                      CHECKPOINT_DISC_P, disc_P, opt_disc, LEARNING_RATE,
-                  )
-                  load_checkpoint(
-                      CHECKPOINT_DISC_M, disc_M, opt_disc, LEARNING_RATE,
-                  )
+    opt_disc = get_optimizer(current_optim_disc, disc_P, disc_M, current_lr_disc)
+    opt_gen = get_optimizer(current_optim_gen, gen_M, gen_P, current_lr_gen)
 
-              dataset = PictureMonetDataset(
-                  root_picture=TRAIN_DIR+"/photo", root_monet=TRAIN_DIR+"/monet", transform=transforms
-              )
-              val_dataset = PictureMonetDataset(
-                root_picture=VAL_DIR+"/photo", root_monet=VAL_DIR + "/monet", transform=transforms
-              )
-              val_loader = DataLoader(
-                  val_dataset,
-                  batch_size=current_batch_size,
-                  shuffle=False,
-                  pin_memory=True,
-              )
-              loader = DataLoader(
-                  dataset,
-                  batch_size=current_batch_size,
-                  shuffle=True,
-                  num_workers=NUM_WORKERS,
-                  pin_memory=True
-              )
-              g_scaler = torch.cuda.amp.GradScaler()
-              d_scaler = torch.cuda.amp.GradScaler()
-              generator_loss, discriminator_loss = [], []
-             
 
-              for epoch in range(current_epoc_size):
-                  G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen, current_epoc_size)
-                  generator_loss.append(G_loss.item())
-                  discriminator_loss.append(D_loss.item())
-                  if SAVE_MODEL:
-                      save_checkpoint(gen_P, opt_gen, filename=CHECKPOINT_GEN_P)
-                      save_checkpoint(gen_M, opt_gen, filename=CHECKPOINT_GEN_M)
-                      save_checkpoint(disc_P, opt_disc, filename=CHECKPOINT_DISC_P)
-                      save_checkpoint(disc_M, opt_disc, filename=CHECKPOINT_DISC_M)
-                  #new_row = {'epocs_size': current_epoc, 'current_epoch': epoch, 'batch_size': current_batch_size, 'opt_disc': current_optim_disc, 'opt_gen': current_optim_gen, 'learning_rate': current_lr, 'G_loss': G_loss.item(), 'D_loss': D_loss.item()}
-                  #print(new_row)
-                  #output_df = output_df.append(new_row, ignore_index=True)
+    L1 = nn.L1Loss()
+    mse = nn.MSELoss()
 
-                  wandb.watch(gen_M)
-              
-              print(len(generator_loss))
-              print(len(discriminator_loss))
-              #save_plots(generator_loss, discriminator_loss, current_dir_name, current_epoc)
+    if LOAD_MODEL:
+      load_checkpoint(
+          CHECKPOINT_GEN_P, gen_P, opt_gen, LEARNING_RATE,
+      )
+      load_checkpoint(
+          CHECKPOINT_GEN_M, gen_M, opt_gen, LEARNING_RATE,
+      )
+      load_checkpoint(
+          CHECKPOINT_DISC_P, disc_P, opt_disc, LEARNING_RATE,
+      )
+      load_checkpoint(
+          CHECKPOINT_DISC_M, disc_M, opt_disc, LEARNING_RATE,
+      )
+
+    dataset = PictureMonetDataset(
+      root_picture=TRAIN_DIR+"/photo", root_monet=TRAIN_DIR+"/monet", transform=transforms
+    )
+    val_dataset = PictureMonetDataset(
+    root_picture=VAL_DIR+"/photo", root_monet=VAL_DIR + "/monet", transform=transforms
+    )
+    val_loader = DataLoader(
+      val_dataset,
+      batch_size=current_batch_size,
+      shuffle=False,
+      pin_memory=True,
+    )
+    loader = DataLoader(
+      dataset,
+      batch_size=current_batch_size,
+      shuffle=True,
+      num_workers=NUM_WORKERS,
+      pin_memory=True
+    )
+    g_scaler = torch.cuda.amp.GradScaler()
+    d_scaler = torch.cuda.amp.GradScaler()
+    generator_loss, discriminator_loss = [], []
+
+
+    for epoch in range(current_epoc_size):
+        G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen, current_epoc_size)
+        generator_loss.append(G_loss.item())
+        discriminator_loss.append(D_loss.item())
+        if SAVE_MODEL:
+            save_checkpoint(gen_P, opt_gen, filename=CHECKPOINT_GEN_P)
+            save_checkpoint(gen_M, opt_gen, filename=CHECKPOINT_GEN_M)
+            save_checkpoint(disc_P, opt_disc, filename=CHECKPOINT_DISC_P)
+            save_checkpoint(disc_M, opt_disc, filename=CHECKPOINT_DISC_M)
+        wandb.log({"current epoch size": current_epoc_size, "current_optim_gen": current_optim_gen,
+                 "current_optim_disc": current_optim_disc,
+                 "current_epoch": epoch, "current_cycle_lambda": current_cycle_lambda,
+                 "current_identity_lambda": current_identity_lambda, "leraning_rate": current_lr,
+                 "d-loss": D_loss.item(), "g-loss": G_loss.item()})
+        wandb.watch(gen_M)
     wandb.finish()
-    print("before head")
-    #print(output_df.head())
-    #output_df = output_df.sort_values(by=['G_loss'])
-    #output_df.head(10)
-    #output_df.to_csv('output_df_data.csv')
 
 if __name__ == "__main__":
 	print(DEVICE)
-	main_with_hyperparameter_loop()
+	main()
 	
