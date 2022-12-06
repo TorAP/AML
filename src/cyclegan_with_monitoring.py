@@ -254,7 +254,7 @@ def show_samples(dataset):
 """ TRAINING """
 
 
-def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d_scaler, g_scaler, current_dir_name, current_cycle_lambda, current_identity_lambda ):
+def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d_scaler, g_scaler, current_dir_name, current_cycle_lambda, current_identity_lambda, epoch):
     P_reals = 0
     P_fakes = 0
     loop = tqdm(loader, leave=True)
@@ -325,8 +325,8 @@ def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d
         g_scaler.update()
 
         if idx % 1000 == 0:
-            save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/photo_{idx}.png")
-            save_image(fake_monet*0.5+0.5,  f"{current_dir_name}/saved_images/monet_{idx}.png")
+            save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/{epoch}_photo_{idx}.png")
+            save_image(fake_monet*0.5+0.5,  f"{current_dir_name}/saved_images/{epoch}_monet_{idx}.png")
 
         loop.set_postfix(P_real=P_reals/(idx+1), P_fake=P_fakes/(idx+1))
     return G_loss, D_loss
@@ -470,7 +470,7 @@ def main():
 
 
     for epoch in range(current_epoc_size):
-        G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, current_cycle_lambda, current_identity_lambda)
+        G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, current_cycle_lambda, current_identity_lambda, epoch)
         generator_loss.append(G_loss.item())
         discriminator_loss.append(D_loss.item())
         if SAVE_MODEL:
