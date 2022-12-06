@@ -254,7 +254,7 @@ def show_samples(dataset):
 """ TRAINING """
 
 
-def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d_scaler, g_scaler, current_dir_name,  epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen, current_epoc_size ):
+def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d_scaler, g_scaler, current_dir_name, current_cycle_lambda, current_identity_lambda ):
     P_reals = 0
     P_fakes = 0
     loop = tqdm(loader, leave=True)
@@ -394,7 +394,6 @@ def main():
 
     current_optim_gen, current_optim_disc, current_lr_gen, current_lr_disc,  current_cycle_lambda, current_identity_lambda = settings['param_' + str(index)]
 
-    print(f'optim gen {current_optim_gen} and cl {current_cycle_lambda}')
     now = datetime.now()
     # dd/mm/YY H:M:S
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
@@ -472,7 +471,7 @@ def main():
 
 
     for epoch in range(current_epoc_size):
-        G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, epoch, current_cycle_lambda, current_identity_lambda, current_lr, current_optim_disc, current_optim_gen, current_epoc_size)
+        G_loss, D_loss = train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, L1, mse, d_scaler, g_scaler, current_dir_name, current_cycle_lambda, current_identity_lambda)
         generator_loss.append(G_loss.item())
         discriminator_loss.append(D_loss.item())
         if SAVE_MODEL:
@@ -483,7 +482,7 @@ def main():
         wandb.log({"current epoch size": current_epoc_size, "current_optim_gen": current_optim_gen,
                  "current_optim_disc": current_optim_disc,
                  "current_epoch": epoch, "current_cycle_lambda": current_cycle_lambda,
-                 "current_identity_lambda": current_identity_lambda, "leraning_rate": current_lr,
+                 "current_identity_lambda": current_identity_lambda, "leraning_rate_d": current_lr_disc,  "leraning_rate_g": current_lr_gen,
                  "d-loss": D_loss.item(), "g-loss": G_loss.item()})
         wandb.watch(gen_M)
     wandb.finish()
