@@ -325,8 +325,25 @@ def train_fn(disc_P, disc_M, gen_M, gen_P, loader, opt_disc, opt_gen, l1, mse, d
         g_scaler.update()
 
         if idx % 1000 == 0:
-            save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/{epoch}_photo_{idx}.png")
-            save_image(fake_monet*0.5+0.5,  f"{current_dir_name}/saved_images/{epoch}_monet_{idx}.png")
+            save_image(cycle_monet*0.5+0.5, f"{current_dir_name}/saved_images/"
+                                            f"{epoch}_reconstructed_monet{idx}.png")
+            save_image(cycle_picture*0.5+0.5, f"{current_dir_name}/saved_images/"
+                                              f"{epoch}_reconstructed_picture{idx}.png")
+
+            save_image(picture*0.5+0.5, f"{current_dir_name}/saved_images/"
+                                        f"{epoch}_original_picture{idx}.png")
+            save_image(monet*0.5+0.5, f"{current_dir_name}/saved_images/{epoch}_original_mone"
+                                      f"t{idx}.png")
+
+            save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/"
+                                             f"{epoch}_generated_photo_{idx}.png")
+            save_image(fake_monet*0.5+0.5, f"{current_dir_name}/saved_images/"
+                                           f"{epoch}_generated_monet_{idx}.png")
+
+            # save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/{epoch}_photo_{idx}.png")
+            #
+            # save_image(fake_picture*0.5+0.5, f"{current_dir_name}/saved_images/{epoch}_photo_{idx}.png")
+            # save_image(fake_monet*0.5+0.5,  f"{current_dir_name}/saved_images/{epoch}_monet_{idx}.png")
 
         loop.set_postfix(P_real=P_reals/(idx+1), P_fake=P_fakes/(idx+1))
     return G_loss, D_loss
