@@ -499,10 +499,10 @@ def main():
       )
 
     dataset = LoadDataset(
-      root_picture=TRAIN_DIR+"/photo", root_monet=TRAIN_DIR+"/art", transform=transforms
+      root_domain_a=TRAIN_DIR+"/photo", root_domain_b=TRAIN_DIR+"/art", transform=transforms
     )
     val_dataset = LoadDataset(
-    root_picture=VAL_DIR+"/photo", root_monet=VAL_DIR + "/art", transform=transforms
+    root_domain_a=VAL_DIR+"/photo", root_domain_b=VAL_DIR + "/art", transform=transforms
     )
     val_loader = DataLoader(
       val_dataset,
