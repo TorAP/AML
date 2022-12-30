@@ -13,8 +13,8 @@ format.
 --------
 
 ## Use pre-trained model
-- blablab
-- blab
+- The notebook "GenerateMonetFromExcistingModel.ipynb" uses google drive to upload the data. In order for that notebook to run smoothly, uploading a zip of the src/data/generate folder to your google drive is necessary. 
+- The runbook generates monets from 4 different photos using two pre-existing models. These results are then combined into one .png image called "GeneratedMonets.png". 
 --------
 ## To train model: 
 - Running main.py will train a model
