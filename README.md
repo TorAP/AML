@@ -3,7 +3,7 @@ This repository contains code to train a CycleGAN and analyze the results.
 
 -----------
 ## Data 
-- The dataset used was downloaded from Kaggle 3
+- The dataset used was downloaded from Kaggle
 and contains two directories: Monet and Photo. 
 - The Monet
 directory contains 300 Monet paintings sized 256x256 in JPEG
