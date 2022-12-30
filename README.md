@@ -8,7 +8,7 @@ This repository contains code to train a CycleGAN and analyze the results.
 
 ## Use pre-trained model
 - blablab
-- blabalba
+- blab
 --------
 ## To train model: 
 - Running main.py will train a model
