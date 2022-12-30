@@ -14,7 +14,7 @@ format.
 
 ## Use pre-trained model
 - The notebook "GenerateMonetFromExcistingModel.ipynb" uses google drive to upload the data. In order for that notebook to run smoothly, uploading a zip of the src/data/generate folder to your google drive is necessary. 
-- The runbook generates monets from 4 different photos using two pre-existing models. These results are then combined into one .png image called "GeneratedMonets.png". 
+- The runbook generates Monets from 4 different pictures using a pre-existing model (the best model) for two different epoch numbers (epoch 2 and epoch 100). These results are then combined into one .png image called "GeneratedMonets.png". 
 --------
 ## To train model: 
 - Running main.py will train a model
