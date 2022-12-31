@@ -33,6 +33,7 @@ format.
 -------
 ## Analysis
 - Data for the best model can be downloaded: https://drive.google.com/file/d/115vhzf6M-uzOwk8RGOGQh5i3a4YOnCUZ/view?usp=share_link
+  - The data has already been pre-processed (so this step can be skipped in the analysis)
 - The analysis conists of: 
   - A RGB comparison of images from a previous training with 3 different metrics 
     (MSE,PSNR,SSIM)
