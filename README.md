@@ -13,8 +13,7 @@ format.
 --------
 
 ## Use pre-trained model
-- The notebook "GenerateMonetFromExcistingModel.ipynb" uses google drive to upload the data. In order for that notebook to run smoothly, uploading a zip of the generate.zip folder to your google drive is necessary. Here is a link to the folder: 
--- https://drive.google.com/file/d/1NZMds1WLYqjvS8Qrhb3fIaOAhrWGK7XJ/view?usp=sharing
+- The notebook "GenerateMonetFromExcistingModel.ipynb" uses google drive to upload the data. In order for that notebook to run smoothly, uploading a zip of the generate.zip folder to your google drive is necessary. Here is a link to the folder: https://drive.google.com/file/d/1NZMds1WLYqjvS8Qrhb3fIaOAhrWGK7XJ/view?usp=sharing
 - The runbook generates Monets from 4 different pictures using a pre-existing model (the best model) for two different epoch numbers (epoch 2 and epoch 100). These results are then combined into one .png image called "GeneratedMonets.png". 
 --------
 ## To train model: 
