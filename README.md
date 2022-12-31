@@ -20,7 +20,7 @@ format.
 - Running main.py will train a model
 - To tweak parameters you can select a subset of hyperparamters, by chaning the 
   index in the training step. 
-- To monitor performance you can add your own Weight and biasis api-key. 
+- To monitor performance you can add your own Weight and Biasis api-key. 
 - 6 types of images will be generated during training:
   - Original photos
   - Generated Monet
